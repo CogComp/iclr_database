@@ -16,14 +16,15 @@ and conveniently packs metadata together with textual features for downstream an
 
 ### Getting the Database
 
-The latest version can be downloaded [here](https://www.dropbox.com/s/iaps6dityc18kif/cs_conf_release.db?dl=1) (2017-2022),
-as a ``sqlite3`` database.
+Latest Snapshot:
+- [ICLR 2017-2022](https://www.dropbox.com/s/iaps6dityc18kif/cs_conf_release.db?dl=1).
 
 ### Companion Paper and Example Notebooks
 
-*A more refined and easy-to-follow notebook will be released soon, for the time being, please refer to
-the notebooks ``paper_summary.ipynb`` for instructions to reporduce figures and tables in the companion paper,
-and the notebook ``analysis_glm.ipynb`` for the association studie via linear models.*
+*A more refined and easy-to-follow notebook will be released soon.* For the time being, please refer to
+the [companion paper](https://arxiv.org/abs/2211.06398) and
+the notebooks [``paper_summary.ipynb``](paper_summary.ipynb) for instructions to reporduce figures and tables in the companion paper,
+and the notebook [``analysis_glm.ipynb``](analysis_glm.ipynb) for the association studie via linear models.
 
 ## Database Overview
 
@@ -61,7 +62,7 @@ covariates, especially those from the textual data themselves such as the submis
 ### Summary of Covariates
 Below is a brief summary of the ICLR data from 2017-2022;
 we exclude all withdrawn submissions. For full table of
-all covariates, see the [companion paper]((https://arxiv.org/abs/2211.06398).
+all covariates, see the [companion paper](https://arxiv.org/abs/2211.06398).
 
 |                             | 2017 | 2018 | 2019 | 2020  | 2021  | 2022  |
 |-----------------------------|------|------|------|-------|-------|-------|
