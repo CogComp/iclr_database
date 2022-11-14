@@ -58,7 +58,7 @@ of citation counts at the year of submission); and
   <img src="figs/hist_rev_acc_topauthor.png" width="30%" />
   <img src="figs/hist_rev_acc_NA.png" width="30%" />
 </p>
-Although at some average rating the discrepancies between two groups seem significant (say at level $0.05$),
+Although at some average rating the discrepancies between two groups seem significant (say at level 0.05),
 it is possilbe that it is due to selection biase, or other confounding factors.
 Towards robust studies of the potential biase, it is beneficial to obtain more
 covariates, especially those from the textual data themselves such as the submissions and the review texts.
@@ -97,13 +97,14 @@ We start with three higher-level textual features:
 3. Submission sentence-level fluency from the [Parrot Paraphrase Model](https://huggingface.co/prithivida/parrot_paraphraser_on_T5).
 
 Below we show the review rating and sentiment histogram across submissions decisions;
-$t$-SNE embedding of the Specter abstract embedding from a random sample of submissions with known arXiv primary category; and
+*t*-SNE embedding of the Specter abstract embedding from a random sample of submissions with known arXiv primary category; and
 a random arXiv sample of papers from different primary categories with their average sentence-level fluency. Note
 that more features can be constructed based on them. For example, we can assign topic clusters (in additional to reported keywords)
 using clustering algorithms on the Specter embedding.
 <p align="middle">
   <img src="https://raw.githubusercontent.com/zjiayao/iclr_database/master/figs/hist_rating_decision.png" width="30%" />
-  <img src="figs/tsne_specter_arxiv.png" width=30%> <img src="figs/hist_cat_complexity.png" width="30%" />
+  <img src="figs/tsne_specter_arxiv.png" width="30%" />
+  <img src="figs/hist_cat_complexity.png" width="30%" />
 </p>
 
 
