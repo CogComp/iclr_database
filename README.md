@@ -10,6 +10,35 @@ This database tracks the latest International Conference
 on Learning Representations (ICLR) submissions/reviews/author profiles
 and conveniently packs metadata together with textual features for downstream analysis.
 
+If you use this database in your work, please consider citing the following companion paper:
+
+```
+@misc{ZZDR22,
+  title = {Investigating Fairness Disparities in Peer Review: A Language Model Enhanced Approach},
+  author = {Zhang, Jiayao and Zhang, Hongming and Deng, Zhun and Roth, Dan},
+  url = {https://arxiv.org/abs/2211.06398},
+  publisher = {arXiv},
+  year = {2022},
+}
+
+```
+
+
+#### Table of Contents  
+
+- [Getting Started](#getting-started)
+  - [Getting the Database](#getting-the-database)
+  - [Companion Paper and Example Notebooks](#companion-paper-and-example-notebooks)
+- [Database Overview](#database-overview)
+  - [Motivation](#motivation)
+  - [Summary of Covariates](#summary-of-covariates)
+  - [High-Level Textual Features](#high-level-textual-features)
+- [Example Studies and Tasks](#example-studies-and-tasks)
+  - [Textual Feature and Fair Classifiers](#textual-feature-and-fair-classifiers)
+  - [Review Generation](#review-generation)
+- [Publications](#publications)
+
+
 
 ## Getting Started
 
@@ -59,8 +88,8 @@ of citation counts at the year of submission); and
   <img src="figs/hist_rev_acc_NA.png" width="30%" />
 </p>
 Although at some average rating the discrepancies between two groups seem significant (say at level 0.05),
-it is possilbe that it is due to selection biase, or other confounding factors.
-Towards robust studies of the potential biase, it is beneficial to obtain more
+it is possilbe that it is due to selection bias, or other confounding factors.
+Towards robust studies of the potential bias, it is beneficial to obtain more
 covariates, especially those from the textual data themselves such as the submissions and the review texts.
 
 
@@ -106,6 +135,70 @@ using clustering algorithms on the Specter embedding.
   <img src="figs/tsne_specter_arxiv.png" width="30%" />
   <img src="figs/hist_cat_complexity.png" width="30%" />
 </p>
+
+## Example Studies and Tasks
+
+Here we outline several example studies and tasks
+the ICLR Database enables.
+
+### Textual Feature and Fair Classifiers
+
+One interesting question is that whether the inclusion
+of (high-level) textual features would make classifiers
+more fair (without using any fair algorithms.
+We group features into several different groups,
+including (i) ``base`` (submission features, including
+high-level ones); (ii) ``author`` (on top of ``base``, adding all
+author featres; (iii) ``rev`` (on top of ``base``, adding non high-level
+review features (ratings, confidence, etc); (iv) ``revnlp`` (on top of ``rev``,
+adding sentiment of reviews); (v) ``all`` (throw all features).
+
+Below we plot the disparity of score cdfs across sensitive groups (we use US author
+as an example here, more are included in the companion paper), the largest
+disparity is usually referred to as the Demographic Parity (DP, see e.g.,[Agarwal et al., 2019](https://arxiv.org/abs/1905.12843)
+and [``fairlearn`` metrics guide](https://fairlearn.org/main/user_guide/assessment/)).
+
+For this sensitive group, we note that the inclusion of review sentiments help
+to reduce DP from 0.073 to 0.070. However, note that the inclusion does not always
+help, as shown in the paper, it actually increase the DP for the groups based on top institutions.
+
+<p align="middle">
+  <img src="figs/dis_us_base.png" width="18%" />
+  <img src="figs/dis_us_author.png" width="18%" />
+  <img src="figs/dis_us_rev.png" width="18%" />
+  <img src="figs/dis_us_revnlp.png" width="18%" />
+  <img src="figs/dis_us_all.png" width="18%" />
+</p>
+
+### Review Generation
+
+With the availability of [Longformer-Encoder-Decoder (LED)](https://github.com/allenai/longformer) models that
+can take as inputs for a maximal of 16K tokens while most of submissions have below 12K tokens (see figure below),
+we are interested in conditional generationg of reviews
+on the tone of the review (positive (>7), negative (<5) or borderlined).
+
+<p align="middle">
+  <img src="figs/hist_sub_len.png" width="30%" />
+</p>
+
+We fine-tune the LED model on the submission-review pairs based on the tone of the reviews
+by minimizing the [ROGUE score](https://huggingface.co/spaces/evaluate-metric/rouge).
+Tabulated below are two random samples from the test set, where ``(+)`` denotes the positive-toned generation
+and ``(-)`` the negative generation.
+                                                                                                                                                          | | Samples |
+|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Submission ID**  | **``49h_IkpJtaE``** |
+| Review Sample  | ```In this paper, the authors introduce a novel audio-visual dereverberation approach. They propose a Visually-Informed Dereverberation of Audio (VIDA) model for dereverberation. The authors also create synthetic/simulated datasets and real-world data for experimentation. Finally, they show the impact of the proposed VIDA model on several speech tasks including, recognition, enhancement, and speaker verification. The results are encouraging. The main contribution of this work is the use of visual information as an auxiliary input for dereverberation. \n\n\n\n\nWhile authors suggest visual information is helpful, it isn\'t reflected in the results...``` |
+| LED Output (+) | ```This paper proposes a new task of dereverberating speech from audio-visual observations. The goal is to learn to dereverberate speech from audio-visual observations. The task is to learn to dereverberate speech from audio-visual observations. The task is to learn to dereverberate speech from audio-visual observations. The visual environment surrounding a human speaker reveals important cues about the room geometry, materials, and speaker location, all of which influence the precise reverberation effects in the audio stream. The task is to learn to dereverberate speech from audio-visual observations. The task is to learn to dereverberate speech from audio-visual observations. The task is to learn to dereverberate speech from audio-visual observations...``` |
+| LED Output (-) | ```This paper proposes a method to learn to dereverberate speech from audio-visual observations. The idea is to learn to dereverberate speech from audio-visual observations. The paper is well written and easy to follow. However, I have several concerns about the paper:\n\n1. The proposed method is not novel. The proposed method is based on the UNet encoder-decoder architecture. The UNet encoder is based on the UNet encoder architecture. The UNet encoder is based on the UNet encoder architecture. The UNet encoder is based on the UNet encoder architecture. The UNet encoder is based on the UNet encoder architecture...``` |
+| **Submission ID**  | **``49h_IkpJtaE``** |
+| Review Sample  | ```The paper mainly investigates the effect of permutation in the class label assignment in the tasks for the MAML algorithm. First, the authors show that MAML requires a higher number of inner loop updates than what is commonly used. Then, they show that MAML is sensible to the permutation of the class labels in the tasks and experimented with diverse methods to alleviate this problem. Finally, they proposed Unicorn-MAML, a modification of the MAML algorithm that learns a single weight vector for the classifier layer, to make the model permutation invariant. They show through experiments on two different datasets (mini-ImageNet and tiered-ImageNet) that it achieves or outperforms state-of-the-art performance...``` |
+| LED Output (+) | ```Summary:\n\nThe paper proposes a new model-agnostic meta-learning algorithm that is permutation-invariant in both the meta-training and meta-testing phases. The main idea is to meta-train only a single vector w, and use the learned initialization to initialize the linear classifiers. The inner loop optimization is done in the inner loop. The inner loop optimization is done in the inner loop...``` |
+| LED Output (-) | ```This paper studies the problem of model-agnostic meta-learning (MAML) in few-shot learning. The main idea is to learn the initialization of an N-way classifier, which is the initialization of an N-way classifier, and then use the learned initialization to initialize the N linear classifiers. Experiments on MiniImageNet and TieredImageNet demonstrate the effectiveness of the proposed method.\n\nThe paper is well-written and easy to follow. However, I have some concerns about the novelty of the proposed method.\n\n1. The main idea of the paper is to learn the initialization of an N-way classifier, which is the initialization of an N-way classifier. However, the initialization of an N-way classifier is the initialization of an N-way classifier, which is the initialization of an N-way classifier. The initialization of an N-way classifier is the initialization of an N-way classifier...``` |
+
+It is clear that there are several challenges. For example, reviews needs to contain summaries as well as *opinions*, which is hard to evaluate (even for humans, how to evaluate the novelty, say, of a paper?). In the generated samples above, we see that the summarization is usually done, whereas
+there are signs of opinions (e.g., in the first sample, ``The proposed method is not novel``.) Furthermore, there are several consistency issues, for example, in the negative output of the first sample, a complement (``The proposed method is not novel.``) is followed by a concern (``However, I have several concerns about the paper.``). As such, there are lots of rooms for improvement on this task and the ICLR Database may be a good corpus for baselining review generation tasks.
+
 
 
 ## Publications
