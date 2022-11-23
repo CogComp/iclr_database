@@ -12,7 +12,7 @@ and conveniently packs metadata together with textual features for downstream an
 
 If you use this database in your work, please consider citing the following companion paper:
 
-```
+```bib
 @misc{ZZDR22,
   title = {Investigating Fairness Disparities in Peer Review: A Language Model Enhanced Approach},
   author = {Zhang, Jiayao and Zhang, Hongming and Deng, Zhun and Roth, Dan},
@@ -89,7 +89,7 @@ of citation counts at the year of submission); and
 </p>
 Although at some average rating the discrepancies between two groups seem significant (say at level 0.05),
 it is possilbe that it is due to selection bias, or other confounding factors.
-Towards robust studies of the potential bias, it is beneficial to obtain more
+Towards rigorous studies of the potential bias, it is beneficial to obtain more
 covariates, especially those from the textual data themselves such as the submissions and the review texts.
 
 
@@ -155,7 +155,7 @@ adding sentiment of reviews); (v) ``all`` (throw all features).
 
 Below we plot the disparity of score cdfs across sensitive groups (we use US author
 as an example here, more are included in the companion paper), the largest
-disparity is usually referred to as the Demographic Parity (DP, see e.g.,[Agarwal et al., 2019](https://arxiv.org/abs/1905.12843)
+disparity is usually referred to as the Demographic Parity (DP, see e.g., [Agarwal et al., 2019](https://arxiv.org/abs/1905.12843)
 and [``fairlearn`` metrics guide](https://fairlearn.org/main/user_guide/assessment/)).
 
 For this sensitive group, we note that the inclusion of review sentiments help
@@ -178,7 +178,7 @@ we are interested in conditional generationg of reviews
 on the tone of the review (positive (>7), negative (<5) or borderlined).
 
 <p align="middle">
-  <img src="figs/hist_sub_len.png" width="30%" />
+  <img src="figs/hist_sub_len.png" width="50%" />
 </p>
 
 We fine-tune the LED model on the submission-review pairs based on the tone of the reviews
