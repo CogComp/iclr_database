@@ -34,6 +34,7 @@ If you use this database in your work, please consider citing the following comp
   - [Summary of Covariates](#summary-of-covariates)
   - [High-Level Textual Features](#high-level-textual-features)
 - [Example Studies and Tasks](#example-studies-and-tasks)
+  - [Association Between Author Metadata and Decision](#association-between-author-metadata-and-decision)
   - [Textual Feature and Fair Classifiers](#textual-feature-and-fair-classifiers)
   - [Review Generation](#review-generation)
 - [Publications](#publications)
@@ -141,6 +142,63 @@ using clustering algorithms on the Specter embedding.
 Here we outline several example studies and tasks
 the ICLR Database enables.
 
+### Association Between Author Metadata and Decision
+
+*More details can be found [in the paper](https://arxiv.org/abs/2211.15849).*
+
+We consider using the database from 2017-2022 to perform a matched-cohort study to test
+the Fisher's sharp null hypothesis of no effect:
+
+$H_0: Y_i(\vec{a}) = Y_i(\vec{a}'), \quad \forall \vec{a}\ne\vec{a}', \vec{a},\vec{a}'\in\mathcal{A},$
+
+where $\vec{a}, \vec{a}'$ are *author metadata,* a complete list of author names with their
+corresponding academic or research institutions, and $\mathcal{A}$ is the set of all possible configurations of author metadata;
+$Y_i(\cdot)$ is the potential-outcome of the $i$-th study unit (the submission, area chair pair) whose value
+is either Accept and Reject. This sharp null states that for all units, the decision should remain the same
+no matter what author metadata is perceived by the corresponding area chair.
+To reduce the number of potential outcomes, we study specifically the prestige of author institutions, through
+a variant of the *Stable Unit Treatment Value Assumption (SUTVA)* by assuming the dependency of $Y$ on $\vec{a}$
+is only through the authors' institution. To this end, we consider a matched pair study on the following
+sharp null
+
+$H_0' : Y _ {ij}(\vec{a} _ {i1}) = Y_{ij}(\vec{a}' _ {i2}), \quad \forall i=1,\ldots, I, j = 1,2,$
+
+by constructing $I$ matched pairs (indexed by the with subscript $j=1,2$). Note that
+$H_0$ implies $H_0'$ and thus rejecting $H_0'$ would provide envidence against $H_0$.
+
+There are several ways of defininig the ''prestige'' of institutions; we consider two study designs,
+$M_1$ where the treated group consist of the submission-AC pairs whose average instution ranking of the authors
+(ranked by past history of accepted papers) lies in the top-30%; and a strengthened design $M_2$ that only
+consists units whose average ranking lies in top-20%.
+
+After matching, we found the covariates are much more balanced, as shown in Tables 2-3 in the paper,
+and also the following diagnostic plots of design $M_1$, here
+in panel A we show the estimated propensity score top-30\% articles, bottom-70\% articles and matched comparison articles;
+in panel B we observe that the distribution of between-article cosine similarity (from the SPECTER embedding) increases from before-matching (median = 0.71) to after-matching (median = 0.80); in panel C, we visulize boxplots of authors' average institution rankings and matched-pair differences in authors' average institution rankings; finally, in panel D we show the permutation distribution and the observed test statistic of the classification permutation test.
+
+<p align="middle">
+  <img src="figs/M1_diagnostic.png" width="80%" />
+</p>
+
+We can then perform a [two-sided, exact McNemar's test](https://journal.r-project.org/archive/2010/RJ-2010-008/index.html), whose details are given in the following contigency table. 
+The odds-ratio suggests some weak evidence that borderline articles from top-30% institutions were
+*less favored* by area chairs compared to their counterparts from the comparison group, defying the common wisdom of
+''status bias.'' Nonetheless, as all retrospective, observational studies,
+we cannot be certain that our analysis was immune from any unmeasured confounding bias,
+and any interpretation of our results should be restricted to our designed matched sample
+and should not be generalized to other contexts.
+
+| Design $M_1$        |          | Comparison Articles                     |          |         |                        |
+|---------------------|----------|-----------------------------------------|----------|---------|------------------------|
+|                     |          | Accepted                                | Rejected | P-value | Odds Ratio (95%-CI) |
+| Top-30% Articles | Accepted | 633                                     | 178      | 0.050   | 0.82 (0.67, 1.00)      |
+|                     | Rejected | 218                                     | 556      |         |                        |
+| Design $M_2$        |          | Comparison Articles |          |         |                        |
+|                     |          | Accepted                                | Rejected |         |                        |
+| Top-20% Articles | Accepted | 443                                     | 115      | 0.149   | 0.83 (0.64, 1.07)      |
+|                     | Rejected | 139                                     | 354      |         |                        |
+
+
 ### Textual Feature and Fair Classifiers
 
 One interesting question is that whether the inclusion
@@ -202,9 +260,9 @@ It is clear that there are several challenges. For example, reviews needs to con
 there are signs of opinions (e.g., in the first sample, ``The proposed method is not novel``.) Furthermore, there are several consistency issues, for example, in the negative output of the first sample, a complement (``The proposed method is not novel.``) is followed by a concern (``However, I have several concerns about the paper.``). As such, there are lots of rooms for improvement on this task and the ICLR Database may be a good corpus for baselining review generation tasks.
 
 
-
 ## Publications
 
 **2022**
-
+- [Association Between Author Metadata and Acceptance: A Feature-Rich, Matched Abservational Study of a Corpus of ICLR Submissions Between 2017-2022](https://arxiv.org/abs/2211.15849)
 - [Investigating Fairness Disparities in Peer Review: A Language Model Enhanced Approach](https://arxiv.org/abs/2211.06398)
+
