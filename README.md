@@ -144,7 +144,7 @@ the ICLR Database enables.
 
 ### Association Between Author Metadata and Decision
 
-*More details can be found [in the paper](https://arxiv.org/abs/2211.15849).*
+*More details can be found [in the corresponding study](https://arxiv.org/abs/2211.15849).*
 
 We consider using the database from 2017-2022 to perform a matched-cohort study to test
 the Fisher's sharp null hypothesis of no effect:
@@ -166,14 +166,14 @@ $H_0' : Y _ {ij}(\vec{a} _ {i1}) = Y_{ij}(\vec{a}' _ {i2}), \quad \forall i=1,\l
 by constructing $I$ matched pairs (indexed by the with subscript $j=1,2$). Note that
 $H_0$ implies $H_0'$ and thus rejecting $H_0'$ would provide envidence against $H_0$.
 
-There are several ways of defininig the ''prestige'' of institutions; we consider two study designs,
+There are several ways of defininig the "prestige" of institutions; we consider two study designs,
 $M_1$ where the treated group consist of the submission-AC pairs whose average instution ranking of the authors
 (ranked by past history of accepted papers) lies in the top-30%; and a strengthened design $M_2$ that only
 consists units whose average ranking lies in top-20%.
 
 After matching, we found the covariates are much more balanced, as shown in Tables 2-3 in the paper,
 and also the following diagnostic plots of design $M_1$, here
-in panel A we show the estimated propensity score top-30\% articles, bottom-70\% articles and matched comparison articles;
+in panel A we show the estimated propensity score top-30% articles, bottom-70% articles and matched comparison articles;
 in panel B we observe that the distribution of between-article cosine similarity (from the SPECTER embedding) increases from before-matching (median = 0.71) to after-matching (median = 0.80); in panel C, we visulize boxplots of authors' average institution rankings and matched-pair differences in authors' average institution rankings; finally, in panel D we show the permutation distribution and the observed test statistic of the classification permutation test.
 
 <p align="middle">
@@ -183,14 +183,14 @@ in panel B we observe that the distribution of between-article cosine similarity
 We can then perform a [two-sided, exact McNemar's test](https://journal.r-project.org/archive/2010/RJ-2010-008/index.html), whose details are given in the following contigency table. 
 The odds-ratio suggests some weak evidence that borderline articles from top-30% institutions were
 *less favored* by area chairs compared to their counterparts from the comparison group, defying the common wisdom of
-''status bias.'' Nonetheless, as all retrospective, observational studies,
+*status bias*. Nonetheless, as all retrospective, observational studies,
 we cannot be certain that our analysis was immune from any unmeasured confounding bias,
 and any interpretation of our results should be restricted to our designed matched sample
 and should not be generalized to other contexts.
 
-| Design $M_1$        |          | Comparison Articles                     |          |         |                        |
+| Design $M_1$        |          | Comparison Articles                     |          |  P-value  |  Odds Ratio (95%-CI)  |
 |---------------------|----------|-----------------------------------------|----------|---------|------------------------|
-|                     |          | Accepted                                | Rejected | P-value | Odds Ratio (95%-CI) |
+|                     |          | Accepted                                | Rejected |  |  |
 | Top-30% Articles | Accepted | 633                                     | 178      | 0.050   | 0.82 (0.67, 1.00)      |
 |                     | Rejected | 218                                     | 556      |         |                        |
 | Design $M_2$        |          | Comparison Articles |          |         |                        |
