@@ -261,6 +261,8 @@ there are signs of opinions (e.g., in the first sample, ``The proposed method is
 
 
 ## Publications
+**2023**
+- [Estimating the Causal Effect of Early ArXiving on Paper Acceptance](https://arxiv.org/abs/2306.13891)
 
 **2022**
 - [Association Between Author Metadata and Acceptance: A Feature-Rich, Matched Abservational Study of a Corpus of ICLR Submissions Between 2017-2022](https://arxiv.org/abs/2211.15849)
